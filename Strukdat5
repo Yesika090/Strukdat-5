@@ -1,0 +1,73 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SLLNCStack:
+    def __init__(self):
+        self.top = None
+        self.size = 0
+
+    def __len__(self):
+        return self.size
+
+    def isEmpty(self):
+        return self.size == 0
+
+    def push(self, data):
+        new_node = Node(data)
+        new_node.next = self.top  # Node baru akan menjadi top
+        self.top = new_node
+        self.size += 1
+
+    def pop(self):
+        if self.isEmpty():
+            print("Stack is empty!")
+            return None
+        popped_node = self.top
+        self.top = self.top.next  # Geser top ke node berikutnya
+        self.size -= 1
+        return popped_node.data
+
+    def printAll(self):
+        current = self.top
+        while current:
+            print(current.data, end=" -> ")
+            current = current.next
+        print("None")
+
+def hapusSetengahBawah(stack):
+    total_size = len(stack)
+    half_size = total_size // 2  # Dibulatkan ke bawah
+
+    # Langkah: simpan elemen yang akan dipertahankan di stack baru
+    temp_stack = SLLNCStack()
+
+    # Masukkan setengah elemen atas ke temp_stack
+    for _ in range(total_size - half_size):
+        temp_stack.push(stack.pop())
+
+    # Kembalikan elemen dari temp_stack ke stack asli
+    while not temp_stack.isEmpty():
+        stack.push(temp_stack.pop())
+
+# TEST CASE
+if __name__ == "__main__":
+    s = SLLNCStack()
+    # Isi Stack
+    s.push(1)
+    s.push(1.5)
+    s.push(2)
+    s.push(3)
+    s.push(4)
+    s.push(5)
+
+    print("Tampilkan stack sebelum dihapus:")
+    s.printAll()
+    print()
+
+    print("Melakukan penghapusan Stack")
+    hapusSetengahBawah(s)
+
+    print("Tampilkan stack setelah dihapus:")
+    s.printAll()
